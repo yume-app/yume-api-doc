@@ -79,41 +79,64 @@ x-tagGroups:
       - Requests
 
 paths:
-  /users/:
+  /users:
     get:
       tags:
         - Users
-    post:
-      tags:
-        - Users
-    put:
-      tags:
-        - Users
+      summary: List All Users
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+              example:
+                response:
+                  value:
+                    - id: 1
+                      name: 'John'
+                      birthday: 634780800
+                      email: 'john@potatoes.a.com'
+                      mobile: 143532322
+                      photo: 'localhost/john_picture.png'
+                      password: '*****'
 
-  /providers/:
+  /users/{userID}/:
+    parameters:
+      - name: userID
+        in: path
+        description: ID of user to return
+        required: true
+        schema:
+          type: integer
     get:
       tags:
-        - Providers
-    post:
-      tags:
-        - Providers
-    put:
-      tags:
-        - Providers
-
-  /requests/:
-    get:
-      tags:
-        - Requests
-    post:
-      tags:
-        - Requests
-    put:
-      tags:
-        - Requests
-
-
-
+        - Users
+      summary: Get User Details
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                response:
+                  value:
+                    id: 1
+                    name: 'John'
+                    birthday: 634780800
+                    email: 'john@potatoes.a.com'
+                    mobile: 143532322
+                    photo: 'localhost/john_picture.png'
+                    password: '*****'
+        '404':
+          description: User not found
+                    
+ 
   /v1/tunnels:
     get:
       tags:
@@ -663,6 +686,27 @@ components:
             $ref: '#/components/schemas/TokenRequest'
       required: true
   schemas:
+    User:
+      title: User
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        birthday:
+          type: integer
+        email:
+          type: string
+        mobile:
+          type: integer
+        photo:
+          type: string
+        password:
+          type: string
+
+
+
     Tunnel:
       title: Tunnel
       type: object
