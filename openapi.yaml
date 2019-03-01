@@ -29,6 +29,13 @@ externalDocs:
   description: Find out more in the official documentation.
   url: 'https://webhookrelay.com/v1/guide/'
 tags:
+  - name: Users
+    description: >-
+  - name: Providers
+    description: >-
+  - name: Requests
+    description: >-
+
   - name: Tokens
     description: >-
       Token key & secret pairs are used to authenticate your API calls or for
@@ -65,7 +72,48 @@ x-tagGroups:
   - name: Tunneling
     tags:
       - Tunnels
+  - name: Yume
+    tags:
+      - Users
+      - Providers
+      - Requests
+
 paths:
+  /users/:
+    get:
+      tags:
+        - Users
+    post:
+      tags:
+        - Users
+    put:
+      tags:
+        - Users
+
+  /providers/:
+    get:
+      tags:
+        - Providers
+    post:
+      tags:
+        - Providers
+    put:
+      tags:
+        - Providers
+
+  /requests/:
+    get:
+      tags:
+        - Requests
+    post:
+      tags:
+        - Requests
+    put:
+      tags:
+        - Requests
+
+
+
   /v1/tunnels:
     get:
       tags:
