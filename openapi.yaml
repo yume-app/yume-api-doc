@@ -35,6 +35,8 @@ tags:
     description: >-
   - name: Requests
     description: >-
+  - name: Rating
+    description: >-
 
   - name: Tokens
     description: >-
@@ -75,6 +77,7 @@ x-tagGroups:
   - name: Yume
     tags:
       - Users
+      - Rating
       - Providers
       - Requests
 
@@ -93,13 +96,11 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
-             
     post:
       tags:
         - Users
       summary: Create a New User
       requestBody:
-        description: Optional description in *Markdown*
         required: true
         content:
           application/json:
@@ -107,20 +108,19 @@ paths:
               $ref: '#/components/schemas/UserCreateRequest'
       responses:
         '201':
-          description: User Created
+          description: Successfull Response
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
         '400':
           description: Invalid create user request supplied
-
-
+      
   /users/{userID}/:
     parameters:
       - name: userID
         in: path
-        description: ID of user to return
+        description: ID of user
         required: true
         schema:
           type: integer
@@ -135,18 +135,49 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/User'
-              example:
-                response:
-                  value:
-                    id: 1
-                    name: 'John'
-                    birthday: 634780800
-                    email: 'john@potatoes.a.com'
-                    mobile: 143532322
-                    photo: 'localhost/john_picture.png'
-                    password: '*****'
         '404':
           description: User not found
+    put:
+      tags:
+        - Users
+      summary: Update User Details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid update user request supplied
+
+  /users/{userID}/rating:
+    parameters:
+      - name: userID
+        in: path
+        description: ID of user
+        required: true
+        schema:
+          type: integer
+    get:
+        tags:
+          - Rating
+        summary: Get User Rating
+        responses:
+          '200':
+            description: Successful Response
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Rating'
+          '404':
+            description: User not found
 
    
                     
@@ -751,6 +782,18 @@ components:
         mobile: 143532322
         photo: 'localhost/john_picture.png'
         password: '*****'
+
+    Rating:
+      title: Rating
+      type: object
+      properties:
+        user:
+          type: integer
+        rating:
+          type: integer
+      example:
+        user: 1
+        rating: 3
 
 
     Tunnel:
