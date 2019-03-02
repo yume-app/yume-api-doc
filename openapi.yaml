@@ -178,6 +178,44 @@ paths:
                   $ref: '#/components/schemas/UserRating'
           '404':
             description: User not found
+    post:
+      tags:
+        - Rating
+      summary: Rate a Provider
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RateProviderRequest'
+      responses:
+        '201':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderRating'
+        '400':
+          description: Invalid rating request supplied
+    put:
+      tags:
+        - Rating
+      summary: Update Provider Rating
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RateProviderRequest'
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderRating'
+        '400':
+          description: Invalid update rating request supplied
 
   /providers/{providerID}/rating:
     parameters:
@@ -200,7 +238,44 @@ paths:
                 $ref: '#/components/schemas/ProviderRating'
         '404':
           description: Provider not found
-   
+    post:
+      tags:
+        - Rating
+      summary: Rate a User
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RateUserRequest'
+      responses:
+        '201':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRating'
+        '400':
+          description: Invalid rating request supplied
+    put:
+      tags:
+        - Rating
+      summary: Update User Rating
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RateUserRequest'
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRating'
+        '400':
+          description: Invalid update rating request supplied
                     
  
   /v1/tunnels:
@@ -833,6 +908,30 @@ components:
         provider: 1
         rating: 3
         voters: 21
+
+    RateProviderRequest:
+      title: RateProviderRequest
+      type: object
+      properties:
+        provider:
+          type: integer
+        rating:
+          type: integer
+      example:
+        provider: 1
+        rating: 4
+
+    RateUserRequest:
+      title: RateUserRequest
+      type: object
+      properties:
+        user:
+          type: integer
+        rating:
+          type: integer
+      example:
+        user: 2
+        rating: 1
 
 
     Tunnel:
