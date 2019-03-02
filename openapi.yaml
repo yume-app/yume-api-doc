@@ -93,16 +93,28 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/User'
-              example:
-                response:
-                  value:
-                    - id: 1
-                      name: 'John'
-                      birthday: 634780800
-                      email: 'john@potatoes.a.com'
-                      mobile: 143532322
-                      photo: 'localhost/john_picture.png'
-                      password: '*****'
+             
+    post:
+      tags:
+        - Users
+      summary: Create a New User
+      requestBody:
+        description: Optional description in *Markdown*
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreateRequest'
+      responses:
+        '201':
+          description: User Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid create user request supplied
+
 
   /users/{userID}/:
     parameters:
@@ -135,6 +147,8 @@ paths:
                     password: '*****'
         '404':
           description: User not found
+
+   
                     
  
   /v1/tunnels:
@@ -686,6 +700,7 @@ components:
             $ref: '#/components/schemas/TokenRequest'
       required: true
   schemas:
+
     User:
       title: User
       type: object
@@ -704,7 +719,38 @@ components:
           type: string
         password:
           type: string
+      example:
+        id: 1
+        name: 'John'
+        birthday: 634780800
+        email: 'john@potatoes.a.com'
+        mobile: 143532322
+        photo: 'localhost/john_picture.png'
+        password: '*****'
 
+    UserCreateRequest:
+      title: User
+      type: object
+      properties:
+        name:
+          type: string
+        birthday:
+          type: integer
+        email:
+          type: string
+        mobile:
+          type: integer
+        photo:
+          type: string
+        password:
+          type: string
+      example:
+        name: 'John'
+        birthday: 634780800
+        email: 'john@potatoes.a.com'
+        mobile: 143532322
+        photo: 'localhost/john_picture.png'
+        password: '*****'
 
 
     Tunnel:
