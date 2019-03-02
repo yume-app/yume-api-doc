@@ -37,6 +37,8 @@ tags:
     description: >-
   - name: Rating
     description: >-
+  - name: Address
+    description: >-
 
   - name: Tokens
     description: >-
@@ -77,9 +79,10 @@ x-tagGroups:
   - name: Yume
     tags:
       - Users
-      - Rating
       - Providers
       - Requests
+      - Rating
+      - Address
 
 paths:
   /users:
@@ -932,6 +935,63 @@ components:
       example:
         user: 2
         rating: 1
+
+    Address:
+      title: Address
+      type: object
+      properties:
+        id:
+          type: integer
+        country:
+          type: string
+        city:
+          type: string
+        lat:
+          type: double
+        lng:
+          type: double 
+      example:
+        id: 30
+        country: Portugal
+        city: Lisbon
+        lat: 38.70767862
+        lng: -9.13660973
+
+    UserAddress:
+      title: User Address
+      type: object
+      properties:
+        id:
+          type: integer
+        user:
+          type: integer
+        local_address:
+          type: string
+        address:
+          type: Address
+      example:
+        id: 2
+        user: 1
+        local_address: Praça do Comércio, 1100-148 Lisboa
+        address:
+
+    ProviderAddress:
+      title: Provider Address
+      type: object
+      properties:
+        id:
+          type: integer
+        provider:
+          type: integer
+        state:
+          type: boolean
+        address:
+          type: Address
+      example:
+        id: 3
+        provider: 3
+        state: true
+        address: 
 
 
     Tunnel:
