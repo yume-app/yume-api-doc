@@ -37,7 +37,7 @@ tags:
     description: >-
   - name: Rating
     description: >-
-  - name: Address
+  - name: Addresses
     description: >-
 
   - name: Tokens
@@ -82,7 +82,7 @@ x-tagGroups:
       - Providers
       - Requests
       - Rating
-      - Address
+      - Addresses
 
 paths:
   /users:
