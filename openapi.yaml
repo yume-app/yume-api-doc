@@ -175,10 +175,31 @@ paths:
             content:
               application/json:
                 schema:
-                  $ref: '#/components/schemas/Rating'
+                  $ref: '#/components/schemas/UserRating'
           '404':
             description: User not found
 
+  /providers/{providerID}/rating:
+    parameters:
+      - name: providerID
+        in: path
+        description: ID of user
+        required: true
+        schema:
+          type: integer
+    get:
+      tags:
+        - Rating
+      summary: Get Provider Rating
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderRating'
+        '404':
+          description: Provider not found
    
                     
  
@@ -760,7 +781,7 @@ components:
         password: '*****'
 
     UserCreateRequest:
-      title: User
+      title: User Create Request
       type: object
       properties:
         name:
@@ -783,17 +804,35 @@ components:
         photo: 'localhost/john_picture.png'
         password: '*****'
 
-    Rating:
-      title: Rating
+    UserRating:
+      title: UserRating
       type: object
       properties:
         user:
           type: integer
         rating:
           type: integer
+        voters:
+          type: integer
       example:
         user: 1
         rating: 3
+        voters: 21
+    
+    ProviderRating:
+      title: ProviderRating
+      type: object
+      properties:
+        provider:
+          type: integer
+        rating:
+          type: integer
+        voters:
+          type: integer
+      example:
+        provider: 1
+        rating: 3
+        voters: 21
 
 
     Tunnel:
