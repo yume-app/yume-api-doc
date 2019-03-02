@@ -224,7 +224,7 @@ paths:
     parameters:
       - name: providerID
         in: path
-        description: ID of user
+        description: ID of provider
         required: true
         schema:
           type: integer
@@ -279,7 +279,31 @@ paths:
                 $ref: '#/components/schemas/UserRating'
         '400':
           description: Invalid update rating request supplied
-                    
+  
+  /users/{userID}/addresses:
+    parameters:
+      - name: userID
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: integer
+    get:
+      tags:
+        - Addresses
+      summary: List a User Addresses
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/UserAddress'
+      
+
+
  
   /v1/tunnels:
     get:
@@ -968,12 +992,19 @@ components:
         local_address:
           type: string
         address:
-          type: Address
+          type: object
+          $ref: '#/components/schemas/Address'
       example:
         id: 2
         user: 1
         local_address: Praça do Comércio, 1100-148 Lisboa
         address:
+          id: 30
+          country: Portugal
+          city: Lisbon
+          lat: 38.70767862
+          lng: -9.13660973
+
 
     ProviderAddress:
       title: Provider Address
@@ -986,12 +1017,18 @@ components:
         state:
           type: boolean
         address:
-          type: Address
+          type: object
+          $ref: '#/components/schemas/Address'
       example:
         id: 3
         provider: 3
         state: true
-        address: 
+        address:
+          id: 30
+          country: Portugal
+          city: Lisbon
+          lat: 38.70767862
+          lng: -9.13660973
 
 
     Tunnel:
