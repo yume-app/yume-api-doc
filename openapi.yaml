@@ -1079,17 +1079,22 @@ components:
       properties:
         local_address:
           type: string
-          required: true
         country:
           type: string
-          required: true
         city:
           type: string
-          required: true
         lat:
           type: double
         lng:
-          type: double 
+          type: double
+      required:
+        - local_address
+        - country
+        - city
+      example:
+        local_address: "Praça do Comércio, 1100-148 Lisboa"
+        country: "Portugal"
+        city: "Lisbon"
         
 
     Tunnel:
