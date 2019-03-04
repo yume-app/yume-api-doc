@@ -301,6 +301,49 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/UserAddress'
+    post:
+      tags:
+        - Addresses
+      summary: Create a User Address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserAddressRequest'
+      responses:
+        '201':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAddress'
+        '400':
+          description: Invalid create user address request supplied
+          
+          
+  /providers/{providerID}/addresses:
+    parameters:
+      - name: providerID
+        in: path
+        description: Provider ID
+        required: true
+        schema:
+          type: integer
+    get:
+      tags:
+        - Addresses
+      summary: List a Provider Addresses
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProviderAddress'
+    
       
 
 
@@ -1030,6 +1073,24 @@ components:
           lat: 38.70767862
           lng: -9.13660973
 
+    CreateUserAddressRequest:
+      title: Create User Address Request
+      type: object
+      properties:
+        local_address:
+          type: string
+          required: true
+        country:
+          type: string
+          required: true
+        city:
+          type: string
+          required: true
+        lat:
+          type: double
+        lng:
+          type: double 
+        
 
     Tunnel:
       title: Tunnel
