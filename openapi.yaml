@@ -354,7 +354,15 @@ paths:
                 $ref: '#/components/schemas/UserAddress'
         '400':
           description: Invalid update user address request supplied
-
+    delete:
+      tags:
+        - Addresses
+      summary: Delete User Address
+      responses:
+        '200':
+          description: Successful Response
+        '404':
+          description: User Address not found
           
           
   /providers/{providerID}/addresses:
@@ -431,7 +439,15 @@ paths:
                 $ref: '#/components/schemas/ProviderAddress'
         '400':
           description: Invalid update provider address request supplied
-
+    delete:
+      tags:
+        - Addresses
+      summary: Delete Provider Address
+      responses:
+        '200':
+          description: Successful Response
+        '404':
+          description: Provider Address not found
 
  
   /v1/tunnels:
