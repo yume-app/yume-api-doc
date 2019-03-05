@@ -291,7 +291,7 @@ paths:
     get:
       tags:
         - Addresses
-      summary: List a User Addresses
+      summary: Lists User Addresses
       responses:
         '200':
           description: Successfull Response
@@ -320,6 +320,41 @@ paths:
                 $ref: '#/components/schemas/UserAddress'
         '400':
           description: Invalid create user address request supplied
+
+  /users/{userID}/addresses/{addressID}/:
+    parameters:
+      - name: userID
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: integer
+      - name: addressID
+        in: path
+        description: Address ID
+        required: true
+        schema:
+          type: integer
+    put:
+      tags:
+        - Addresses
+      summary: Update User Address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserAddressRequest'
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserAddress'
+        '400':
+          description: Invalid update user address request supplied
+
           
           
   /providers/{providerID}/addresses:
@@ -333,7 +368,7 @@ paths:
     get:
       tags:
         - Addresses
-      summary: List a Provider Addresses
+      summary: Lists Provider Addresses
       responses:
         '200':
           description: Successfull Response
@@ -343,8 +378,59 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/ProviderAddress'
+    post:
+      tags:
+        - Addresses
+      summary: Create a Provider Address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProviderAddressRequest'
+      responses:
+        '201':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderAddress'
+        '400':
+          description: Invalid create provider address request supplied
     
-      
+  /providers/{userID}/addresses/{addressID}/:
+    parameters:
+      - name: providerID
+        in: path
+        description: Provider ID
+        required: true
+        schema:
+          type: integer
+      - name: addressID
+        in: path
+        description: Address ID
+        required: true
+        schema:
+          type: integer
+    put:
+      tags:
+        - Addresses
+      summary: Update Provider Address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProviderAddressRequest'
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProviderAddress'
+        '400':
+          description: Invalid update provider address request supplied
 
 
  
@@ -1095,6 +1181,67 @@ components:
         local_address: "Praça do Comércio, 1100-148 Lisboa"
         country: "Portugal"
         city: "Lisbon"
+        lat: 38.70767862
+        lng: -9.13660973
+
+    CreateProviderAddressRequest:
+      title: Create Provider Address Request
+      type: object
+      properties:
+        state:
+          type: boolean
+        country:
+          type: string
+        city:
+          type: string
+        lat:
+          type: double
+        lng:
+          type: double
+      required:
+        - state
+        - country
+        - city
+      example:
+        state: true
+        country: "Portugal"
+        city: "Lisbon"
+        lat: 38.70767862
+        lng: -9.13660973
+  
+    UpdateUserAddressRequest:
+      title: Update User Address Request
+      type: object
+      properties:
+        local_address:
+          type: string
+        country:
+          type: string
+        city:
+          type: string
+        lat:
+          type: double
+        lng:
+          type: double
+      example:
+        local_address: "Praça do Comércio, 1100-148 Lisboa"
+
+    UpdateProviderAddressRequest:
+      title: Update Provider Address Request
+      type: object
+      properties:
+        state:
+          type: boolean
+        country:
+          type: string
+        city:
+          type: string
+        lat:
+          type: double
+        lng:
+          type: double
+      example:
+        state: true
         
 
     Tunnel:
