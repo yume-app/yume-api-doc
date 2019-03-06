@@ -30,7 +30,7 @@ externalDocs:
   url: 'https://webhookrelay.com/v1/guide/'
 tags:
   - name: Users
-    description: >-
+    description: User management calls 
   - name: Providers
     description: >-
   - name: Requests
@@ -39,6 +39,9 @@ tags:
     description: >-
   - name: Addresses
     description: >-
+  - name: Cuisines
+    description: EndPoint to obtain information about cuisines/chef skills
+
 
 x-tagGroups:
   - name: Yume
@@ -48,8 +51,10 @@ x-tagGroups:
       - Requests
       - Rating
       - Addresses
+      - Cuisines
 
 paths:
+  
   /users:
     get:
       tags:
@@ -125,7 +130,6 @@ paths:
         '400':
           description: Invalid update user request supplied
 
-
   /providers:
     get:
       tags:
@@ -159,7 +163,6 @@ paths:
                 $ref: '#/components/schemas/Provider'
         '400':
           description: Invalid create user request supplied
-
 
   /providers/{providerID}:
     parameters:
@@ -412,8 +415,7 @@ paths:
           description: Successful Response
         '404':
           description: User Address not found
-          
-          
+                
   /providers/{providerID}/addresses:
     parameters:
       - name: providerID
@@ -497,10 +499,49 @@ paths:
           description: Successful Response
         '404':
           description: Provider Address not found
+  
+  /cuisines:
+    get:
+      tags:
+        - Cuisines
+      summary: List All Cuisine Skills
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfCuisines'
+    post:
+      tags:
+        - Cuisines
+      summary: Add a new cuisine
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+              example:   # Sample object
+                name: Japanese
+      responses:
+        '201':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cuisine'
+        '400':
+          description: Invalid create cuisine request supplied 
+        # CREATE NEW ERROR FOR DUPLICATED CUISINES ### TODO
 
- 
+
 servers:
   - url: 'https://my.webhookrelay.com/'
+
 components:
   schemas:
     User:
@@ -578,7 +619,6 @@ components:
           type: string
       example:
         name: 'John'
-
 
     Provider:
       title: Provider
@@ -928,6 +968,21 @@ components:
       example:
         state: true
 
+    ArrayOfCuisines:
+      type: array
+      items:
+        type: object
+        properties:
+          id:
+            type: integer
+          name:
+            type: string
+      example:
+        - id: 1
+          name: Portuguese
+        - id: 2
+          name: Japanese
+
     Cuisine:
       title: Cuisine
       type: object
@@ -936,8 +991,9 @@ components:
           type: integer
         type:
           type: string
-        price:
-          type: decimal
+      example:
+        id: 2
+        type: 'Chinese'
 
     Equipment:
       title: Equipment
