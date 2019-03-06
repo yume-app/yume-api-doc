@@ -160,6 +160,55 @@ paths:
         '400':
           description: Invalid create user request supplied
 
+
+  /providers/{providerID}:
+    parameters:
+      - name: providerID
+        in: path
+        description: ID of provider
+        required: true
+        schema:
+          type: integer
+    get:
+      tags:
+        - Providers
+      summary: List All Providers
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ProviderDetails'
+    put:
+      tags:
+        - Providers
+      summary: Update Provider Details
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderUpdateRequest'
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Provider'
+        '400':
+          description: Invalid update provider request supplied
+    delete:
+      tags:
+        - Providers
+      summary: Delete Provider
+      responses:
+        '200':
+          description: Successful Response
+        '404':
+          description: Provider not found
+
   /users/{userID}/rating:
     parameters:
       - name: userID
@@ -537,11 +586,100 @@ components:
       properties:
         id:
           type: integer
+        user:
+          type: integer
         name:
+          type: string
+        photo:
           type: string
       example:
         id: 1
+        user: 1
         name: 'John'
+        photo: 'localhost/john_picture.png'
+
+    ProviderDetails:
+      title: Provider Details
+      type: object
+      properties:
+        id:
+          type: integer
+        user:
+          type: integer
+        name:
+          type: string
+        photo:
+          type: string
+        address:
+          type: object
+          $ref: '#/components/schemas/Address'
+        price:
+          type: decimal
+        cuisines:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cuisine'
+        equipments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Equipment'
+        availability:
+          type: array
+          items:
+            $ref: '#/components/schemas/Availability'
+      example:
+        id: 1
+        user: 1
+        name: 'John'
+        photo: 'localhost/john_picture.png'
+        address:
+          id: 30
+          country: Portugal
+          city: Lisbon
+          lat: 38.70767862
+          lng: -9.13660973
+        price: 7.5
+        cuisines:
+          [
+            {
+              id: 1,
+              type: "Italiano",
+              price: 15
+            },
+            {
+              id: 2,
+              type: "Chinês",
+              price: 17.5
+            }
+          ]
+        equipments:
+          [
+            {
+              id: 1,
+              price: 2.5,
+              name: "Tacho"
+            },
+            {
+              id: 2,
+              price: 4,
+              name: "Grill"
+            }
+          ]
+        availability:
+          [
+            {
+              id: 1,
+              start: 2019-07-22T17:30:00Z,
+              end: 2019-07-22T19:00:00Z,
+              weekday: "Monday",
+            },
+            {
+              id: 2,
+              start: 2019-08-09T10:00:00Z,
+              end: 2019-08-09T21:30:00Z,
+              weekday: "Friday",
+            }
+          ]
 
     ProviderCreateRequest:
       title: Provider Create Request
@@ -551,12 +689,31 @@ components:
           type: integer
         name:
           type: string
+        photo:
+          type: string
       required:
         - user
         - name
+        - photo
       example:
         user: 1
         name: 'John'
+        photo: 'localhost/john_picture.png'
+
+    ProviderUpdateRequest:
+      title: Provider Update Request
+      type: object
+      properties:
+        user:
+          type: integer
+        name:
+          type: string
+        photo:
+          type: string
+      example:
+        user: 1
+        name: 'John'
+        photo: 'localhost/john_picture.png'
 
     UserRating:
       title: UserRating
@@ -770,3 +927,38 @@ components:
           type: double
       example:
         state: true
+
+    Cuisine:
+      title: Cuisine
+      type: object
+      properties:
+        id:
+          type: integer
+        type:
+          type: string
+        price:
+          type: decimal
+
+    Equipment:
+      title: Equipment
+      type: object
+      properties:
+        id:
+          type: integer
+        price:
+          type: decimal
+        name:
+          type: string
+
+    Availability:
+      title: Availability
+      type: object
+      properties:
+        id:
+          type: integer
+        start:
+          type: date-time
+        end:
+          type: date-time
+        weekday:
+          type: string
