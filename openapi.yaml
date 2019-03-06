@@ -125,6 +125,41 @@ paths:
         '400':
           description: Invalid update user request supplied
 
+
+  /providers:
+    get:
+      tags:
+        - Providers
+      summary: List All Providers
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Provider'
+    post:
+      tags:
+        - Providers
+      summary: Create a New Providers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProviderCreateRequest'
+      responses:
+        '201':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Provider'
+        '400':
+          description: Invalid create user request supplied
+
   /users/{userID}/rating:
     parameters:
       - name: userID
@@ -493,6 +528,34 @@ components:
         password:
           type: string
       example:
+        name: 'John'
+
+
+    Provider:
+      title: Provider
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+      example:
+        id: 1
+        name: 'John'
+
+    ProviderCreateRequest:
+      title: Provider Create Request
+      type: object
+      properties:
+        user:
+          type: integer
+        name:
+          type: string
+      required:
+        - user
+        - name
+      example:
+        user: 1
         name: 'John'
 
     UserRating:
