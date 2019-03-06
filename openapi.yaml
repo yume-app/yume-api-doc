@@ -172,7 +172,7 @@ paths:
     get:
       tags:
         - Providers
-      summary: List All Providers
+      summary: Get Provider Details
       responses:
         '200':
           description: Successfull Response
