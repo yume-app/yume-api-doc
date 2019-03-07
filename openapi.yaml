@@ -538,12 +538,59 @@ paths:
           description: Invalid create cuisine request supplied 
         # CREATE NEW ERROR FOR DUPLICATED CUISINES ### TODO
 
-
+  /providers/{providerID}/cuisines:
+    parameters:
+        - name: providerID
+          in: path
+          description: Provider ID
+          required: true
+          schema:
+            type: integer
+    get:
+      tags:
+        - Cuisines
+      summary: Lists Provider Skills
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfCuisines'
+    post:
+      tags:
+        - Cuisines
+      summary: Associate a provider with a certain skill
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              oneOf:
+                - "$ref": "#/definitions/String" #CuisineByName
+                - "$ref": "#/definitions/Integer" #CuisineByID
+      responses:
+        '201':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cuisine'
+        '400':
+          description: Invalid create provider skill request supplied
 servers:
   - url: 'https://my.webhookrelay.com/'
 
+
+
 components:
   schemas:
+    Integer:
+      type: integer
+      example: 5
+    String:
+      type: string
+      example: stringValue
     User:
       title: User
       type: object
@@ -968,6 +1015,7 @@ components:
       example:
         state: true
 
+#CUISINES
     ArrayOfCuisines:
       type: array
       items:
@@ -995,6 +1043,8 @@ components:
         id: 2
         type: 'Chinese'
 
+
+#EQUIPMENT
     Equipment:
       title: Equipment
       type: object
