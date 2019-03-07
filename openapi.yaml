@@ -1018,3 +1018,73 @@ components:
           type: date-time
         weekday:
           type: string
+
+    Request:
+      title: Request
+      type: object
+      properties:
+        id:
+          type: integer
+        user:
+          type: integer
+        provider:
+          type: integer
+        startDate:
+          type: string
+          format: date-time
+        finishDate:
+          type: string
+          format: date-time
+        price:
+          type: number
+          format: float
+          minimum: 0.0
+        location:
+          type: object
+          $ref: '#/components/schemas/UserAddress'
+        status:
+          type: string
+        equipment:
+          type: array
+          items:
+            $ref: '#/components/schemas/Equipment'
+        cuisine:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cuisine'
+      example:
+        id: 1
+        user: 2
+        provider: 2
+        startDate: "2019-07-22T17:30:00Z"
+        endDate: "2019-07-22T22:30:00Z"
+        price: 50.5
+        location:  
+          id: 2
+          user: 1
+          local_address: Praça do Comércio, 1100-148 Lisboa
+          address:
+            id: 30
+            country: Portugal
+            city: Lisbon
+            lat: 38.70767862
+            lng: -9.13660973
+          status: "closed"
+          equipment:
+              - id: 1
+                name: 'Grill'
+                price: 5.0
+              - id: 2
+                name: 'Citrus Juicer'
+                price: 1.0
+          cuisine:
+            items:
+              - id: 2
+                type: 'Chinese'
+
+
+
+             
+  
+
+      
