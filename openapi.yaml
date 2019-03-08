@@ -567,8 +567,10 @@ paths:
           application/json:
             schema:
               oneOf:
-                - "$ref": "#/definitions/String" #CuisineByName
-                - "$ref": "#/definitions/Integer" #CuisineByID
+                - type: integer
+                  example: 5
+                - type: string
+                  example: Indian
       responses:
         '201':
           description: Successfull Response
@@ -585,12 +587,6 @@ servers:
 
 components:
   schemas:
-    Integer:
-      type: integer
-      example: 5
-    String:
-      type: string
-      example: stringValue
     User:
       title: User
       type: object
