@@ -27,7 +27,7 @@ info:
     email: support@webhookrelay.com
 externalDocs:
   description: Find out more in the official documentation.
-  url: 'https://webhookrelay.com/v1/guide/'
+  url: 'https://yume-app.github.io/yume-api-doc/'
 tags:
   - name: Users
     description: User management calls 
@@ -41,6 +41,8 @@ tags:
     description: >-
   - name: Cuisines
     description: EndPoint to obtain information about cuisines/chef skills
+  - name: Credit Cards
+    description: EndPoint to obtain payment information
 
 
 x-tagGroups:
@@ -52,6 +54,7 @@ x-tagGroups:
       - Rating
       - Addresses
       - Cuisines
+      - Credit Cards
 
 paths:
   
@@ -580,8 +583,74 @@ paths:
                 $ref: '#/components/schemas/Cuisine'
         '400':
           description: Invalid create provider skill request supplied
+
+  /cards/{userID}:
+    parameters:
+        - name: userID
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+    get:
+      tags:
+        - Credit Cards
+      summary: Get active credit card token
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+    post:
+      tags:
+        - Credit Cards
+      summary: Associate a credit card to an user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreditCard'
+      responses:
+        '201':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+        '400':
+          description: Invalid credit card supplied
+
+  /cards/{userID}/{token}:
+    parameters:
+        - name: userID
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+        - name: token
+          in: path
+          description: Token to the card to be deleted
+          required: true
+          schema:
+            type: string
+
+    delete:
+      tags:
+        - Credit Cards
+      summary: Delete a secundary credit card. It only delets if there's another credit card
+      responses:
+        '200':
+          description: Successfull Response
+        
+
+
+
 servers:
-  - url: 'https://my.webhookrelay.com/'
+  - url: 'https://yume-app.github.io/yume-api-doc/'
 
 
 
@@ -1128,6 +1197,30 @@ components:
               - id: 2
                 type: 'Chinese'
 
+
+#CREDIT CARDS
+    CreditCard:
+      title: Credit Card
+      type: object
+      properties:
+        number:
+          type: integer
+        expiration:
+          type: string
+        ccv:
+          type: integer
+        cardHolder:
+          type: string
+      example:
+        number: 123456789
+        expiration: '06/22'
+        ccv: 562
+        cardHolder: 'John'
+
+    Token:
+      title: Token
+      type: string
+      example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9'
 
 
              
