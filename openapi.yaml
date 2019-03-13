@@ -689,7 +689,7 @@ paths:
         content:
           application/json:
             schema:
-               $ref: '#/components/schemas/CreateRequests'
+               $ref: '#/components/schemas/CreateRequest'
       responses:
         '201':
           description: Successfull Response
