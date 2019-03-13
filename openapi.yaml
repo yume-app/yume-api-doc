@@ -645,6 +645,44 @@ paths:
       responses:
         '200':
           description: Successfull Response
+
+  /users/{userID}/requests:
+    parameters:
+      - name: userID
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: integer
+    get:
+      tags:
+        - Requests
+      summary: Get User's Requests
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                state:
+                  type: string
+            example:
+              state: 'closed'
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Request'
+        '400':
+          description:  Invalid get user requests supplied
+               
+      
+
         
 
 
