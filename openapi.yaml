@@ -43,6 +43,8 @@ tags:
     description: EndPoint to obtain information about cuisines/chef skills
   - name: Credit Cards
     description: EndPoint to obtain payment information
+  - name: Equipments
+    description: >-
 
 
 x-tagGroups:
@@ -749,7 +751,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/Request'
         '400':
-          description: Invalid update request supllied
+          description: Invalid update request supplied
 
   /providers/{providerID}/requests:
     parameters:
@@ -778,16 +780,111 @@ paths:
                 $ref: '#/components/schemas/Request'
         '404':
           description: Request not found
+
+  /providers/{providerID}/equipments:
+    parameters:
+      - name: providerID
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: integer
+    get:
+      tags:
+        - Equipments
+      summary: Get Provider's Equipments
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Equipment'
+        '404':
+          description: Provider not found
+
+    post:
+      tags:
+        - Equipments
+      summary: Create Equipment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: '#/components/schemas/CreateEquipment'
+      responses:
+        '201':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+        '400':
+          description: Invalid create equipment request supplied
     
+  /providers/{providerID}/equipments/{equipmentID}/:
+    parameters:
+      - name: providerID
+        in: path
+        description: Provider ID
+        required: true
+        schema:
+          type: integer
+      - name: equipmentID
+        in: path
+        description: Equipment ID
+        required: true
+        schema:
+          type: integer
   
+    get:
+      tags:
+        - Equipments
+      summary: Get Equipment Details
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+        '404':
+           description: Equipment not found
+    
+    put:
+      tags:
+        - Equipments
+      summary: Update Equipment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEquipment'
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Equipment'
+        '400':
+          description: Invalid update equipment supplied
 
+    delete:
+      tags:
+        - Equipments
+      summary: Delete Equipment
+      responses:
+        '200':
+          description: Successful Response
+        '404':
+          description: Equipment not found
 
-               
-      
-
-        
-
-
+    
 
 servers:
   - url: 'https://yume-app.github.io/yume-api-doc/'
@@ -1257,9 +1354,44 @@ components:
         id:
           type: integer
         price:
-          type: decimal
+          type: number
+          format: float
+          minimum: 0
         name:
           type: string
+      example:
+        id: 1
+        price: 10.0
+        name: 'Grill'
+
+    CreateEquipment:
+      title: Create Equipment Request
+      type: object
+      properties:
+        price:
+          type: number
+          format: float
+          minimum: 0
+        name:
+          type: string
+      required:
+        - name
+      example:
+        name: 'Grill'
+        price: 10.0
+      
+    UpdateEquipment:
+      title: Update Equipment Request
+      type: object
+      properties:
+        price:
+          type: number
+          format: float
+          minimum: 0
+        name:
+          type: string
+      example:
+        price: 10.0
 
     Availability:
       title: Availability
