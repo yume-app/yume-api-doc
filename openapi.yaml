@@ -622,6 +622,8 @@ paths:
                 $ref: '#/components/schemas/Token'
         '400':
           description: Invalid credit card supplied
+        
+    
 
   /cards/{userID}/{token}:
     parameters:
@@ -699,6 +701,85 @@ paths:
                 $ref: '#/components/schemas/Request'
         '400':
           description: Invalid create request supllied
+  
+  /users/{userID}/requests/{requestID}/:
+    parameters:
+      - name: userID
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: integer
+      - name: requestID
+        in: path
+        description: Request ID
+        required: true
+        schema:
+          type: integer
+
+    get:
+      tags:
+        - Requests
+      summary: Get Request Details
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '404':
+           description: Request not found
+    
+    put:
+      tags:
+        - Requests
+      summary: Update Request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+               $ref: '#/components/schemas/UpdateRequest'
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '400':
+          description: Invalid update request supllied
+
+  /providers/{providerID}/requests:
+    parameters:
+      - name: providerID
+        in: path
+        description: User ID
+        required: true
+        schema:
+          type: integer
+      - name: requestID
+        in: path
+        description: Request ID
+        required: true
+        schema:
+          type: integer
+    get:
+      tags:
+        - Requests
+      summary: Get Provider's Requests
+      responses:
+        '200':
+          description: Successfull Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Request'
+        '404':
+          description: Request not found
+    
+  
 
 
                
@@ -1260,8 +1341,6 @@ components:
       title: Create Request
       type: object
       properties:
-        user:
-          type: integer
         provider:
           type: integer
         startDate:
@@ -1276,8 +1355,52 @@ components:
           minimum: 0.0
         location:
           type: integer
-        status:
+        equipment:
+          type: array
+          items:
+            type: integer
+        cuisine:
+          type: array
+          items:
+            type: integer
+      required:
+        - provider
+        - startDate
+        - finishDate
+        - price
+        - location
+        - equipment
+        - cuisine
+      example:
+        provider: 2
+        startDate: "2019-07-22T17:30:00Z"
+        endDate: "2019-07-22T22:30:00Z"
+        price: 50.5
+        location: 2 
+        equipment:
+          - 1
+          - 2
+        cuisine:
+          - 2
+
+    UpdateRequest:
+      title: Update Request
+      type: object
+      properties:
+        provider:
+          type: integer
+        startDate:
           type: string
+          format: date-time
+        finishDate:
+          type: string
+          format: date-time
+        price:
+          type: number
+          format: float
+          minimum: 0.0
+        location:
+          type: integer
         equipment:
           type: array
           items:
@@ -1287,18 +1410,7 @@ components:
           items:
             type: integer
       example:
-        user: 2
-        provider: 2
-        startDate: "2019-07-22T17:30:00Z"
-        endDate: "2019-07-22T22:30:00Z"
-        price: 50.5
         location: 2 
-        status: "open"
-        equipment:
-          - 1
-          - 2
-        cuisine:
-          - 2
 
 
 #CREDIT CARDS
